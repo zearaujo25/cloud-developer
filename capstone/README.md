@@ -13,7 +13,7 @@ This proojects uses the auth0 feature to handle authentications.
 
 # Enpoints 
 
-* `GetAppointment  GET  /appointments/'
+* `GetAppointment  GET  /appointments/`
 
 
 This end points purpose is to get all  apointments from a user returning a similiar response like bellow.
