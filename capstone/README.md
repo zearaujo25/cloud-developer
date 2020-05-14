@@ -13,7 +13,9 @@ This proojects uses the auth0 feature to handle authentications.
 
 # Enpoints 
 
-* `GetAppointment  GET  /appointments/
+* `GetAppointment  GET  /appointments/'
+
+
 This end points purpose is to get all  apointments from a user returning a similiar response like bellow.
 
 ```json
@@ -32,6 +34,8 @@ This end points purpose is to get all  apointments from a user returning a simil
 ```
 
 * `CreateAppointment POST /appointments/` 
+
+
 This end points purpose is to create an apointments to a user.
 
 It receives a new Appointment item to be created in JSON format that looks like this:
@@ -60,6 +64,7 @@ It should return a new Appointment item that looks like this:
 
 * `UpdateAppointment PATCH /appointments/{appointmentId}` 
 
+
 This end points purpose is to update an apointments from a user
 
 It receives an object that contains three fields that can be updated in a appointment item:
@@ -75,7 +80,9 @@ The id of an item that should be updated is passed as a URL parameter.
 
 It should return an empty body.
 
-* `DeleteAppointment DELETE /appointments/{appointmentId}` 
+* `DeleteAppointment DELETE /appointments/{appointmentId}`
+
+
 This end points purpose is to delete an apointments from a user
 
 It should return an empty body.
