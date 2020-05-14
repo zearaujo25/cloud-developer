@@ -104,18 +104,11 @@ It should return a JSON object that looks like this:
 The `client` folder contains a web application that can be used to check the api.
 
 in the folder just run 
-  npm -i
-  npm start
+```ts
+npm -i
+npm start
+```
+
 To begin the app.
 
-```ts
-const apiId = '...' API Gateway id
-export const apiEndpoint = `https://${apiId}.execute-api.us-east-1.amazonaws.com/dev`
-
-export const authConfig = {
-  domain: '...',    // Domain from Auth0
-  clientId: '...',  // Client id from an Auth0 application
-  callbackUrl: 'http://localhost:3000/callback'
-}
-```
 
