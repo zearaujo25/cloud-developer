@@ -36,7 +36,7 @@ export async function createAppointment(
 }
 export async function getAppointmentInDay(
   jwtToken: string,
-  appointmentDate: string
+  appointmentDate: moment.Moment
 ): Promise<AppointmentItem[]> {
 
   const userId = parseUserId(jwtToken)
