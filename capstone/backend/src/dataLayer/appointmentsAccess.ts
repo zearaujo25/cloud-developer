@@ -2,6 +2,7 @@ import * as AWS from 'aws-sdk'
 import * as AWSXRay from 'aws-xray-sdk'
 import { DocumentClient } from 'aws-sdk/clients/dynamodb'
 import { createLogger } from '../utils/logger'
+import * as moment from 'moment'
 const logger = createLogger('appointmentAccess')
 
 const XAWS = AWSXRay.captureAWS(AWS)
@@ -44,15 +45,19 @@ export class AppointmentsAccess {
     return items as AppointmentItem[]
   }
 
-  async getAppointmentsInDay(userId: string,appointmentDate:string): Promise<AppointmentItem[]> {
-    logger.info('GEtting appontments ind Day')
+  async getAppointmentsInDay(userId: string,appointmentDate:moment.Moment): Promise<AppointmentItem[]> {
+    const startDate = appointmentDate.format('YYYY-MM-DD').toString()
+    const endDate = appointmentDate.add(1,'days').format('YYYY-MM-DD').toString()
+    logger.info('GEtting appontments ind Day: '+ startDate)
+    logger.info('GEtting appontments ind Day after'+ endDate)
     const result = await this.docClient
       .query({
         TableName: this.appointmentsTable,
         IndexName: this.dateIndexName,
-        KeyConditionExpression: 'appointmentDate = :appointmentDate AND userId = :userId',
+        KeyConditionExpression: 'appointmentDate  BETWEEN :startDate AND :endDate AND userId = :userId',
         ExpressionAttributeValues: {
-          ':appointmentDate': appointmentDate,
+          ':startDate': startDate,
+          ':endDate' : endDate,
           ':userId': userId
         }
       })

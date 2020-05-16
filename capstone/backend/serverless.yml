@@ -22,7 +22,6 @@ provider:
     DATE_INDEX_NAME: AppointmentsDatendex-${self:provider.stage}
     APPOINTMENTS_FILES_S3_BUCKET: jose-serverless-appointment-files-${self:provider.stage}
     SIGNED_URL_EXPIRATION: 300
-    MAX_APPOINTMENTS_IN_DAY: 1
   
   
   iamRoleStatements:
@@ -62,6 +61,31 @@ functions:
           Action:
             - dynamodb:Query
           Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.APPOINTMENTS_TABLE}/index/${self:provider.environment.INDEX_NAME}
+        - Effect: Allow
+          Action:
+            - xray:PutTraceSegments
+            - xray:PutTelemetryRecords
+          Resource: "*"
+  # TODO: Configure this function
+  GetApptmntsDay:
+    handler: src/lambda/http/getAppointmentsInDay.handler
+    tracing: true
+    events:
+      - http:
+          method: get
+          authorizer: Auth
+          path: appointments/day/{appointmentDay}
+          cors: true
+    iamRoleStatements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+          Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.APPOINTMENTS_TABLE}
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+          Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.APPOINTMENTS_TABLE}/index/${self:provider.environment.DATE_INDEX_NAME}
         - Effect: Allow
           Action:
             - xray:PutTraceSegments
